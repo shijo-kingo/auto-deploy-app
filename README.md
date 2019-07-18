@@ -20,6 +20,10 @@
 | application.initializeCommand | If present, this variable will run as shall command within an application Container as a Helm post-install Hook. Intended to run database initialization commands. | `nil` |
 | application.secretName        | Pass in the name of a Secret which the deployment will [load all key-value pairs from the Secret as environment variables](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#configure-all-key-value-pairs-in-a-configmap-as-container-environment-variables) in the application container. | `nil` |
 | application.secretChecksum    | Pass in the checksum of the secrets referenced by `application.secretName`. | `nil` |
+| hpa.enabled                   | If true, enables horizontal pod autoscaler. A resource request is also required to be set, such as `resources.requests.cpu: 200m`.| `false` |
+| hpa.minReplicas               |             | `1`                                |
+| hpa.maxReplicas               |             | `5`                                |
+| hpa.targetCPUUtilizationPercentage | Percentage threshold when HPA begins scaling out pods | `80` |
 | gitlab.env                    | GitLab environment. | `nil` |
 | gitlab.app                    | GitLab project slug. | `nil` |
 | service.enabled               |             | `true`                             |
