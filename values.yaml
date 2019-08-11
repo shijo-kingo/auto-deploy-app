@@ -24,6 +24,7 @@ hpa:
 gitlab:
   app:
   env:
+  envName:
 service:
   enabled: true
   annotations: {}
