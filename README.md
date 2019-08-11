@@ -24,8 +24,9 @@
 | hpa.minReplicas               |             | `1`                                |
 | hpa.maxReplicas               |             | `5`                                |
 | hpa.targetCPUUtilizationPercentage | Percentage threshold when HPA begins scaling out pods | `80` |
-| gitlab.env                    | GitLab environment. | `nil` |
 | gitlab.app                    | GitLab project slug. | `nil` |
+| gitlab.env                    | GitLab environment slug. | `nil` |
+| gitlab.envName                    | GitLab environment name. | `nil` |
 | service.enabled               |             | `true`                             |
 | service.annotations           | Service annotations | `{}`                       |
 | service.name                  |             | `web`                              |
