@@ -25,6 +25,7 @@ gitlab:
   app:
   env:
   envName:
+  envURL:
 service:
   enabled: true
   annotations: {}
