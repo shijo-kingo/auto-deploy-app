@@ -39,6 +39,8 @@
 | service.internalPort          |             | `5000`                             |
 | ingress.tls.enabled           | If true, enables SSL | `true`                    |
 | ingress.tls.secretName        | Name of the secret used to terminate SSL traffic | `""` |
+| ingress.modSecurity.enabled | Enable custom configuration for modsecurity, defaulting to [the Core Rule Set](https://coreruleset.org) | `false` |
+| ingress.modSecurity.secRuleEngine | Configuration for [ModSecurity's rule engine](https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-(v2.x)#SecRuleEngine) | `DetectionOnly` |
 | ingress.annotations           | Ingress annotations | `{kubernetes.io/tls-acme: "true", kubernetes.io/ingress.class: "nginx"}` |
 | livenessProbe.path            | Path to access on the HTTP server on periodic probe of container liveness. | `/`                                |
 | livenessProbe.scheme          | Scheme to access the HTTP server (HTTP or HTTPS). | `HTTP`                                |

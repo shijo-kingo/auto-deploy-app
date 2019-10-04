@@ -8,9 +8,16 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version| replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-{{- if .Values.ingress.annotations }}
+{{- if or .Values.ingress.annotations (and .Values.ingress.modSecurity .Values.ingress.modSecurity.enabled) }}
   annotations:
+{{- if .Values.ingress.annotations }}
 {{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+{{- if and .Values.ingress.modSecurity .Values.ingress.modSecurity.enabled }}
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
+      SecRuleEngine {{ .Values.ingress.modSecurity.secRuleEngine | default "DetectionOnly" | title }}
+{{- end }}
 {{- end }}
 spec:
 {{- if .Values.ingress.tls.enabled }}
