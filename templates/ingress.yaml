@@ -15,7 +15,6 @@ metadata:
 {{- end }}
 {{- if and .Values.ingress.modSecurity .Values.ingress.modSecurity.enabled }}
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
       SecRuleEngine {{ .Values.ingress.modSecurity.secRuleEngine | default "DetectionOnly" | title }}
 {{- end }}
 {{- end }}
