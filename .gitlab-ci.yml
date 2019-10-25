@@ -8,8 +8,6 @@ lint:
   stage: test
   script:
     - helm lint .
-  except:
-    - master
 
 release-chart:
   stage: release
