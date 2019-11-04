@@ -46,6 +46,8 @@ ingress:
   modSecurity:
     enabled: false
     secRuleEngine: "DetectionOnly"
+prometheus:
+  metrics: false
 livenessProbe:
   path: "/"
   initialDelaySeconds: 15
