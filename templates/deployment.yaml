@@ -42,6 +42,23 @@ spec:
             name: {{ .Values.application.secretName }}
         {{- end }}
         env:
+{{- if .Values.postgresql.managed }}
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: app-postgres
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-postgres
+              key: password
+        - name: POSTGRES_HOST
+          valueFrom:
+            secretKeyRef:
+              name: app-postgres
+              key: privateIP
+{{- end }}
         - name: DATABASE_URL
           value: {{ .Values.application.database_url | quote }}
         - name: GITLAB_ENVIRONMENT_NAME

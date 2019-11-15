@@ -51,6 +51,8 @@
 | readinessProbe.initialDelaySeconds | # of seconds after the container has started before readiness probes are initiated. | `5`                                |
 | readinessProbe.timeoutSeconds | # of seconds after which the readiness probe times out. | `3`                                |
 | postgresql.enabled            |             | `true`                             |
+| postgresql.managed            | If true, this will provision a managed Postgres instance via crossplane.            | `false`                             |
+| postgresql.managedClassSelector            | This will allow provisioning a Postgres instance based on label selectors via Crossplane, eg: `managedClassSelector.matchLabels.stack: gitlab`. The `postgresql.managed` value should be true as well for this to be honoured. [Crossplane Configuration](https://docs.gitlab.com/ee/user/clusters/applications.html#crossplane)            | `{}`                             |
 | podDisruptionBudget.enabled   |             | `false`                            |
 | podDisruptionBudget.maxUnavailable |             | `1`                            |
 | podDisruptionBudget.minAvailable | If present, this variable will configure minAvailable in the PodDisruptionBudget. :warning: if you have `replicaCount: 1` and `podDisruptionBudget.minAvailable: 1` `kubectl drain` will be blocked.              | `nil`                            |

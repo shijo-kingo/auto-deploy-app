@@ -60,6 +60,11 @@ readinessProbe:
   scheme: "HTTP"
 postgresql:
   enabled: true
+  managed: false
+  managedClassSelector:
+    #   matchLabels:
+    #     stack: gitlab (This is an example. The labels should match the labels on the CloudSQLInstanceClass)
+
 resources:
 #  limits:
 #    cpu: 100m
