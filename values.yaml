@@ -53,11 +53,13 @@ livenessProbe:
   initialDelaySeconds: 15
   timeoutSeconds: 15
   scheme: "HTTP"
+  probeType: "httpGet"
 readinessProbe:
   path: "/"
   initialDelaySeconds: 5
   timeoutSeconds: 3
   scheme: "HTTP"
+  probeType: "httpGet"
 postgresql:
   enabled: true
   managed: false

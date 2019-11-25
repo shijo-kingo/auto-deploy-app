@@ -69,17 +69,27 @@ spec:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
         livenessProbe:
+{{- if eq .Values.livenessProbe.probeType "httpGet" }}
           httpGet:
             path: {{ .Values.livenessProbe.path }}
-            port: {{ .Values.service.internalPort }}
             scheme: {{ .Values.livenessProbe.scheme }}
+            port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.livenessProbe.probeType "tcpSocket" }}
+          tcpSocket:
+            port: {{ .Values.service.internalPort }}
+{{- end }}
           initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
         readinessProbe:
+{{- if eq .Values.readinessProbe.probeType "httpGet" }}
           httpGet:
             path: {{ .Values.readinessProbe.path }}
-            port: {{ .Values.service.internalPort }}
             scheme: {{ .Values.readinessProbe.scheme }}
+            port: {{ .Values.service.internalPort }}
+{{- else if eq .Values.readinessProbe.probeType "tcpSocket" }}
+          tcpSocket:
+            port: {{ .Values.service.internalPort }}
+{{- end }}
           initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
           timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
         resources:
