@@ -54,24 +54,24 @@ items:
           - name: GITLAB_ENVIRONMENT_NAME
             value: {{ $.Values.gitlab.envName }}
           livenessProbe:
-{{- if eq .Values.livenessProbe.probeType "httpGet" }}
+{{- if eq $.Values.livenessProbe.probeType "httpGet" }}
             httpGet:
               path: {{ $.Values.livenessProbe.path }}
               scheme: {{ $.Values.livenessProbe.scheme }}
               port: {{ $.Values.service.internalPort }}
-{{- else if eq .Values.livenessProbe.probeType "tcpSocket" }}
+{{- else if eq $.Values.livenessProbe.probeType "tcpSocket" }}
             tcpSocket:
               port: {{ $.Values.service.internalPort }}
 {{- end }}
             initialDelaySeconds: {{ $.Values.livenessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ $.Values.livenessProbe.timeoutSeconds }}
           readinessProbe:
-{{- if eq .Values.readinessProbe.probeType "httpGet" }}
+{{- if eq $.Values.readinessProbe.probeType "httpGet" }}
             httpGet:
               path: {{ $.Values.readinessProbe.path }}
               scheme: {{ $.Values.readinessProbe.scheme }}
               port: {{ $.Values.service.internalPort }}
-{{- else if eq .Values.readinessProbe.probeType "tcpSocket" }}
+{{- else if eq $.Values.readinessProbe.probeType "tcpSocket" }}
           tcpSocket:
               port: {{ $.Values.service.internalPort }}
 {{- end }}
