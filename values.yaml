@@ -83,6 +83,22 @@ podDisruptionBudget:
   # minAvailable: 1
   maxUnavailable: 1
 
+## Configure NetworkPolicy
+## ref: https://kubernetes.io/docs/concepts/services-networking/network-policies/
+#
+networkPolicy:
+  enabled: false
+  spec:
+    podSelector:
+      matchLabels: {}
+    ingress:
+    - from:
+      - podSelector:
+          matchLabels: {}
+      - namespaceSelector:
+          matchLabels:
+            name: gitlab-managed-apps
+
 workers: {}
   # worker:
   #   replicaCount: 1
