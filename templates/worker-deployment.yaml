@@ -87,6 +87,6 @@ items:
                 {{- end }}
           {{- end }}
           resources:
-  {{ toYaml $.Values.resources | indent 14 }}
+{{ toYaml $.Values.resources | indent 12 }}
 {{- end -}}
 {{- end -}}
