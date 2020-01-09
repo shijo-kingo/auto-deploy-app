@@ -1,5 +1,5 @@
 {{- if .Values.service.enabled -}}
-apiVersion: {{ template "ingress.apiVersion" . }}
+apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "fullname" . }}
