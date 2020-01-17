@@ -15,6 +15,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
+{{- if .Values.strategyType }}
+  strategy:
+    type: {{ .Values.strategyType | quote }}
+{{- end }}
   template:
     metadata:
       annotations:

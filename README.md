@@ -9,6 +9,7 @@
 | Parameter                     | Description | Default                            |
 | ---                           | ---         | ---                                |
 | replicaCount                  |             | `1`                                |
+| strategyType                  | Pod deployment [strategy](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#strategy) | `nil` |
 | image.repository              |             | `gitlab.example.com/group/project` |
 | image.tag                     |             | `stable`                           |
 | image.pullPolicy              |             | `Always`                           |
