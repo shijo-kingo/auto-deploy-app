@@ -233,7 +233,7 @@ func TestNetworkPolicyDeployment(t *testing.T) {
 					From: []netV1.NetworkPolicyPeer{
 						{PodSelector: &metav1.LabelSelector{MatchLabels: map[string]string{}}},
 						{NamespaceSelector: &metav1.LabelSelector{
-							MatchLabels: map[string]string{"name": "gitlab-managed-apps"},
+							MatchLabels: map[string]string{"app.gitlab.com/managed_by": "gitlab"},
 						}},
 					},
 				},

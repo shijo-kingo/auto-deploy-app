@@ -97,7 +97,7 @@ networkPolicy:
           matchLabels: {}
       - namespaceSelector:
           matchLabels:
-            name: gitlab-managed-apps
+            app.gitlab.com/managed_by: gitlab
 
 workers: {}
   # worker:
