@@ -18,6 +18,10 @@ items:
       heritage: {{ $.Release.Service }}
   spec:
     replicas: {{ $workerConfig.replicaCount }}
+  {{- if $workerConfig.strategyType }}
+    strategy:
+      type: {{ $workerConfig.strategyType | quote }}
+  {{- end  }}
     template:
       metadata:
         annotations:
