@@ -24,8 +24,9 @@ func TestDeploymentTemplate(t *testing.T) {
 		Release  string
 		Values   map[string]string
 
-		ExpectedName    string
-		ExpectedRelease string
+		ExpectedName         string
+		ExpectedRelease      string
+		ExpectedStrategyType extensions.DeploymentStrategyType
 	}{
 		{
 			CaseName: "happy",
@@ -33,14 +34,26 @@ func TestDeploymentTemplate(t *testing.T) {
 			Values: map[string]string{
 				"releaseOverride": "productionOverridden",
 			},
-			ExpectedName:    "productionOverridden",
-			ExpectedRelease: "production",
+			ExpectedName:         "productionOverridden",
+			ExpectedRelease:      "production",
+			ExpectedStrategyType: extensions.DeploymentStrategyType(""),
 		},
 		{
-			CaseName:        "long release name",
-			Release:         strings.Repeat("r", 80),
-			ExpectedName:    strings.Repeat("r", 63),
-			ExpectedRelease: strings.Repeat("r", 80),
+			CaseName:             "long release name",
+			Release:              strings.Repeat("r", 80),
+			ExpectedName:         strings.Repeat("r", 63),
+			ExpectedRelease:      strings.Repeat("r", 80),
+			ExpectedStrategyType: extensions.DeploymentStrategyType(""),
+		},
+		{
+			CaseName: "strategyType",
+			Release:  "production",
+			Values: map[string]string{
+				"strategyType": "Recreate",
+			},
+			ExpectedName:         "production",
+			ExpectedRelease:      "production",
+			ExpectedStrategyType: extensions.RecreateDeploymentStrategyType,
 		},
 	} {
 		t.Run(tc.CaseName, func(t *testing.T) {
@@ -64,6 +77,7 @@ func TestDeploymentTemplate(t *testing.T) {
 			helm.UnmarshalK8SYaml(t, output, &deployment)
 
 			require.Equal(t, tc.ExpectedName, deployment.Name)
+			require.Equal(t, tc.ExpectedStrategyType, deployment.Spec.Strategy.Type)
 
 			require.Equal(t, map[string]string{
 				"app.gitlab.com/app": "auto-devops-examples/minimal-ruby-app",
@@ -117,12 +131,14 @@ func TestWorkerDeploymentTemplate(t *testing.T) {
 			ExpectedRelease: "production",
 			ExpectedDeployments: []workerDeploymentTestCase{
 				{
-					ExpectedName: "productionOverridden-worker1",
-					ExpectedCmd:  []string{"echo", "worker1"},
+					ExpectedName:         "productionOverridden-worker1",
+					ExpectedCmd:          []string{"echo", "worker1"},
+					ExpectedStrategyType: extensions.DeploymentStrategyType(""),
 				},
 				{
-					ExpectedName: "productionOverridden-worker2",
-					ExpectedCmd:  []string{"echo", "worker2"},
+					ExpectedName:         "productionOverridden-worker2",
+					ExpectedCmd:          []string{"echo", "worker2"},
+					ExpectedStrategyType: extensions.DeploymentStrategyType(""),
 				},
 			},
 		},
@@ -137,8 +153,27 @@ func TestWorkerDeploymentTemplate(t *testing.T) {
 			ExpectedRelease: strings.Repeat("r", 80),
 			ExpectedDeployments: []workerDeploymentTestCase{
 				{
-					ExpectedName: strings.Repeat("r", 63) + "-worker1",
-					ExpectedCmd:  []string{"echo", "worker1"},
+					ExpectedName:         strings.Repeat("r", 63) + "-worker1",
+					ExpectedCmd:          []string{"echo", "worker1"},
+					ExpectedStrategyType: extensions.DeploymentStrategyType(""),
+				},
+			},
+		},
+		{
+			CaseName: "strategyType",
+			Release:  "production",
+			Values: map[string]string{
+				"workers.worker1.command[0]":   "echo",
+				"workers.worker1.command[1]":   "worker1",
+				"workers.worker1.strategyType": "Recreate",
+			},
+			ExpectedName:    "production",
+			ExpectedRelease: "production",
+			ExpectedDeployments: []workerDeploymentTestCase{
+				{
+					ExpectedName:         "production" + "-worker1",
+					ExpectedCmd:          []string{"echo", "worker1"},
+					ExpectedStrategyType: extensions.RecreateDeploymentStrategyType,
 				},
 			},
 		},
@@ -168,6 +203,7 @@ func TestWorkerDeploymentTemplate(t *testing.T) {
 				deployment := deployments.Items[i]
 
 				require.Equal(t, expectedDeployment.ExpectedName, deployment.Name)
+				require.Equal(t, expectedDeployment.ExpectedStrategyType, deployment.Spec.Strategy.Type)
 
 				require.Equal(t, map[string]string{
 					"app.gitlab.com/app": "auto-devops-examples/minimal-ruby-app",
@@ -301,8 +337,9 @@ func TestNetworkPolicyDeployment(t *testing.T) {
 }
 
 type workerDeploymentTestCase struct {
-	ExpectedName string
-	ExpectedCmd  []string
+	ExpectedName         string
+	ExpectedCmd          []string
+	ExpectedStrategyType extensions.DeploymentStrategyType
 }
 
 type deploymentList struct {
