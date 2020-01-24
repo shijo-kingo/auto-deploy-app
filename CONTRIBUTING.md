@@ -23,4 +23,4 @@ _This notice should stay as the first item in the CONTRIBUTING.md file._
 We want to create a welcoming environment for everyone who is interested
 in contributing. Please visit our [Code of Conduct
 page](https://about.gitlab.com/contributing/code-of-conduct) to learn
-more about our committment to an open and welcoming environment.
+more about our commitment to an open and welcoming environment.
